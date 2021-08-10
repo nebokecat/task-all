@@ -1,11 +1,12 @@
 # Ruby on Rails on Docker
 
 ## Ruby version
- - [.ruby-version](https://github.com/hihats/ruby-on-rails-pg-on-docker/blob/master/.ruby-version)
+ - Ruby [![Version](https://img.shields.io/badge/version-2.6.2-brightgreen)](https://www.ruby-lang.org/en/news/2019/03/13/ruby-2-6-2-released/)
 
 
 ## Gem versions
-- Ruby on Rails [![Gem Version](https://badge.fury.io/rb/rails.svg)](https://badge.fury.io/rb/rails)
+- Ruby on Rails [![Gem Version](https://img.shields.io/badge/Gem%20Version-5.2.3-brightgreen)](https://rubygems.org/gems/rails/versions/5.2.3)
+
 
 - rubocop [![Gem Version](https://badge.fury.io/rb/rubocop.svg)](https://badge.fury.io/rb/rubocop)
 

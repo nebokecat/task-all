@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[show update]
 
+
   def index
     @tasks = Task.all
     render json: { tasks: @tasks }

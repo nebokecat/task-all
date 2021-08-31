@@ -1,6 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: %i[show update]
-
+  before_action :set_task, only: %i[show update destroy]
 
   def index
     @tasks = Task.all
@@ -26,6 +25,10 @@ class TasksController < ApplicationController
     else
       render json: { errors: @task.errors }
     end
+  end
+
+  def destroy
+    @task.destroy
   end
 
   private

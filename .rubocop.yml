@@ -1,0 +1,29 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rails
+
+# 文字数の上限を８０文字から変更
+LineLength:
+  Max: 130
+
+# Frozenリテラルコメントなくても許可
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# クラスの頭にコメントは不要
+Documentation:
+  Enabled: false
+
+#rubocopで検証したくないフォルダを指定
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'bin/*'
+    - 'config/environments/*'
+    - 'config/application.rb'
+    - 'config/initializers/*'
+    - 'config/spring.rb'
+    - 'config/puma.rb'
+    - Gemfile
+

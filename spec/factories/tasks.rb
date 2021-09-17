@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :task do
-    id do 1 end
-    name do 'string' end
-    description do 'desc' end
+    id { 1 }
+    name { 'string' }
+    description { 'desc' }
   end
 end

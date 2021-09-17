@@ -11,8 +11,8 @@ RSpec.describe 'TasksAPI', type: :request do
       it 'タスク一覧が新規作成順に表示されること' do
         get tasks_path
 
-        expect(json['tasks'][0]["id"]).to match(task2.id)
-        expect(json['tasks'][1]["id"]).to match(task1.id)
+        expect(json['tasks'][0]['id']).to match(task2.id)
+        expect(json['tasks'][1]['id']).to match(task1.id)
         expect(response).to have_http_status(200)
       end
     end
@@ -22,10 +22,9 @@ RSpec.describe 'TasksAPI', type: :request do
     context '正常系' do
       let(:task_create_params) do
         { task: {
-            name: 'new_task',
-            description: 'task_description'
-          }
-        }
+          name: 'new_task',
+          description: 'task_description'
+        } }
       end
 
       it 'タスクが正しく作成されている' do
@@ -37,10 +36,9 @@ RSpec.describe 'TasksAPI', type: :request do
     context '異常系' do
       let(:task_error_params) do
         { task: {
-            name: '',
-            description: 'task_description'
-          }
-        }
+          name: '',
+          description: 'task_description'
+        } }
       end
 
       it 'バリデーションエラー' do
@@ -75,14 +73,12 @@ RSpec.describe 'TasksAPI', type: :request do
 
   describe 'UPDATE /tasks/:id' do
     context '正常系' do
-
       let(:task) { create(:task) }
       let(:task_update_params) do
         { task: {
-            name: 'update_task',
-            description: 'task_description'
-          }
-        }
+          name: 'update_task',
+          description: 'task_description'
+        } }
       end
 
       it 'タスクが正しく更新されている' do
@@ -96,10 +92,9 @@ RSpec.describe 'TasksAPI', type: :request do
     context '異常系' do
       let(:task_error_params) do
         { task: {
-            name: '',
-            description: 'task_description'
-          }
-        }
+          name: '',
+          description: 'task_description'
+        } }
       end
 
       it 'バリデーションエラー' do

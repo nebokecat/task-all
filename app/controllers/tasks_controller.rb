@@ -10,7 +10,7 @@ class TasksController < ApplicationController
     if @task
       render json: { task: @task }
     else
-      render json: { error: 'Faild find task' }, status: 404
+      render json: { error: 'Faild find task' }, status: :not_found
     end
   end
 

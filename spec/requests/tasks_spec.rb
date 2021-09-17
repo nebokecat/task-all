@@ -3,16 +3,16 @@ require 'rails_helper'
 RSpec.describe 'TasksAPI', type: :request do
   describe 'GET /tasks' do
     context '正常系' do
-      let(:task1) { create(:task, id: 1, name: 'task1') }
-      let(:task2) { create(:task, id: 2, name: 'task2') }
+      let!(:task1) { create(:task, id: 1, name: 'task1') }
+      let!(:task2) { create(:task, id: 2, name: 'task2') }
 
       let(:json) { JSON.parse(response.body) }
-      let(:tasks) { Task.order(created_at: :desc) }
 
       it 'タスク一覧が新規作成順に表示されること' do
         get tasks_path
 
-        expect(json['tasks']).to match(tasks)
+        expect(json['tasks'][0]["id"]).to match(task2.id)
+        expect(json['tasks'][1]["id"]).to match(task1.id)
         expect(response).to have_http_status(200)
       end
     end

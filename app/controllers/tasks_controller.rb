@@ -4,11 +4,14 @@ class TasksController < ApplicationController
   def index
     @tasks = Task.order(created_at: :desc)
     render json: { tasks: @tasks }
-    # binding.pry
   end
 
   def show
-    render json: { task: @task }
+    if @task
+      render json: { task: @task }
+    else
+      render json: { error: 'Faild find task' }, status: 404
+    end
   end
 
   def create
@@ -35,7 +38,7 @@ class TasksController < ApplicationController
   private
 
   def set_task
-    @task = Task.find(params[:id])
+    @task = Task.find_by(id: params[:id])
   end
 
   def task_params

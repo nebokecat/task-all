@@ -12,8 +12,6 @@ services:
   app:
     build:
       context: .
-    stdin_open: true
-    tty: true
     volumes:
       - .:/var/src/app
     ports:

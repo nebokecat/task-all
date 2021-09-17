@@ -32,9 +32,7 @@ module App
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
-    #TimeZone
     config.time_zone = 'Tokyo'
-    # デフォルトのlocaleを日本語(:ja)にする
     config.i18n.default_locale = :ja
 
   end

@@ -20,7 +20,6 @@ RSpec.describe 'TasksAPI', type: :request do
 
   describe 'POST /tasks' do
     context '正常系' do
-      # let は2行以上になるのであれば、do~end ブロックにしたほうがいい
       let(:task_create_params) do
         { task: {
             name: 'new_task',
@@ -56,20 +55,16 @@ RSpec.describe 'TasksAPI', type: :request do
     let!(:task2) { create(:task, id: 2, name: 'task2') }
 
     context '正常系' do
-      # id: 1 と、id: 2 の別々のTaskデータを用意して、
-      # expectではid: 1が取れている
+      let(:json) { JSON.parse(response.body) }
+
       it '詳細情報が正しく取れている' do
         get task_path(task1)
-
-        # let(:json) { JSON.parse(response.body) }
-        json = JSON.parse(response.body)
 
         expect(json['task']['id']).to eq(task1.id)
         expect(response).to have_http_status(200)
       end
     end
 
-    # レスポンスのステータスコード404が検証できれば良い
     context '異常系' do
       it '存在しないtaskへのページでエラーが出ること' do
         get task_path(3)
@@ -92,7 +87,6 @@ RSpec.describe 'TasksAPI', type: :request do
 
       it 'タスクが正しく更新されている' do
         patch task_path(task), params: task_update_params
-        # patch task_path(task), params: task_update_params
 
         expect(task.reload.name).to eq(task_update_params[:task][:name])
         expect(response).to have_http_status(200)
@@ -115,7 +109,6 @@ RSpec.describe 'TasksAPI', type: :request do
     end
   end
 
-  # 異常系不要
   describe 'DELETE /tasks/:id' do
     before do
       @task = create(:task)

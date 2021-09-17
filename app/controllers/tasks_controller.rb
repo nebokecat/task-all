@@ -2,12 +2,16 @@ class TasksController < ApplicationController
   before_action :set_task, only: %i[show update destroy]
 
   def index
-    @tasks = Task.all
+    @tasks = Task.order(created_at: :desc)
     render json: { tasks: @tasks }
   end
 
   def show
-    render json: { task: @task }
+    if @task
+      render json: { task: @task }
+    else
+      render json: { error: 'Faild find task' }, status: :not_found
+    end
   end
 
   def create
@@ -34,7 +38,7 @@ class TasksController < ApplicationController
   private
 
   def set_task
-    @task = Task.find(params[:id])
+    @task = Task.find_by(id: params[:id])
   end
 
   def task_params

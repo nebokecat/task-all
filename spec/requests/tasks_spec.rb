@@ -3,17 +3,15 @@ require 'rails_helper'
 RSpec.describe 'TasksAPI', type: :request do
   describe 'GET /tasks' do
     context '正常系' do
-      let!(:task1) { create(:task, id: 1, name: 'task1') }
-      let!(:task2) { create(:task, id: 2, name: 'task2') }
+      let!(:task1) { create(:task, id: 1, name: 'task1', created_at: DateTime.new(2021, 9, 24)) }
+      let!(:task2) { create(:task, id: 2, name: 'task2', created_at: DateTime.new(2021, 9, 25)) }
+      let!(:task3) { create(:task, id: 3, name: 'task3', created_at: DateTime.new(2021, 9, 26)) }
 
       let(:json) { JSON.parse(response.body) }
 
       it 'タスク一覧が新規作成順に表示されること' do
         get tasks_path
-
-        expect(json['tasks'][0]['id']).to match(task2.id)
-        expect(json['tasks'][1]['id']).to match(task1.id)
-        expect(response).to have_http_status(200)
+        expect(json['tasks'][0]['id']).to match(task3.id)
       end
     end
   end
@@ -29,7 +27,6 @@ RSpec.describe 'TasksAPI', type: :request do
 
       it 'タスクが正しく作成されている' do
         expect { post tasks_path, params: task_create_params }.to change(Task, :count).by(1)
-        expect(response).to have_http_status(200)
       end
     end
 
@@ -43,7 +40,6 @@ RSpec.describe 'TasksAPI', type: :request do
 
       it 'バリデーションエラー' do
         expect { post tasks_path, params: task_error_params }.to change(Task, :count).by(0)
-        expect(response).to have_http_status(200)
       end
     end
   end
@@ -59,7 +55,6 @@ RSpec.describe 'TasksAPI', type: :request do
         get task_path(task1)
 
         expect(json['task']['id']).to eq(task1.id)
-        expect(response).to have_http_status(200)
       end
     end
 
@@ -85,7 +80,6 @@ RSpec.describe 'TasksAPI', type: :request do
         patch task_path(task), params: task_update_params
 
         expect(task.reload.name).to eq(task_update_params[:task][:name])
-        expect(response).to have_http_status(200)
       end
     end
 
@@ -99,7 +93,6 @@ RSpec.describe 'TasksAPI', type: :request do
 
       it 'バリデーションエラー' do
         expect { post tasks_path, params: task_error_params }.to change(Task, :count).by(0)
-        expect(response).to have_http_status(200)
       end
     end
   end
@@ -111,7 +104,6 @@ RSpec.describe 'TasksAPI', type: :request do
 
     it 'タスクが正しく削除されている' do
       expect { delete task_path(@task) }.to change(Task, :count).by(-1)
-      expect(response).to have_http_status(204)
     end
   end
 end

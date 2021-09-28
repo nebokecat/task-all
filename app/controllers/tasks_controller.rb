@@ -2,7 +2,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: %i[show update destroy]
 
   def index
-    @tasks = Task.all
+    @tasks = Task.order(finished_at: desc)
     render json: { tasks: @tasks }
   end
 
@@ -38,6 +38,6 @@ class TasksController < ApplicationController
   end
 
   def task_params
-    params.require(:task).permit(:name, :description)
+    params.require(:task).permit(:name, :description, :finished_at)
   end
 end

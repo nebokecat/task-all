@@ -7,11 +7,11 @@ RSpec.describe 'TasksAPI', type: :request do
       let!(:task2) { create(:task, id: 2, name: 'task2', created_at: DateTime.new(2021, 9, 25)) }
       let!(:task3) { create(:task, id: 3, name: 'task3', created_at: DateTime.new(2021, 9, 26)) }
 
-      let(:json) { JSON.parse(response.body) }
+      let(:results) { JSON.parse(response.body) }
 
       it 'タスク一覧が新規作成順に表示されること' do
         get tasks_path
-        expect(json['tasks'][0]['id']).to match(task3.id)
+        expect(results['tasks'][0]['id']).to match(task3.id)
       end
     end
   end
@@ -49,12 +49,12 @@ RSpec.describe 'TasksAPI', type: :request do
     let!(:task2) { create(:task, id: 2, name: 'task2') }
 
     context '正常系' do
-      let(:json) { JSON.parse(response.body) }
+      let(:results) { JSON.parse(response.body) }
 
       it '詳細情報が正しく取れている' do
         get task_path(task1)
 
-        expect(json['task']['id']).to eq(task1.id)
+        expect(results['task']['id']).to eq(task1.id)
       end
     end
 
@@ -67,8 +67,9 @@ RSpec.describe 'TasksAPI', type: :request do
   end
 
   describe 'UPDATE /tasks/:id' do
+    let!(:task) { create(:task) }
+
     context '正常系' do
-      let(:task) { create(:task) }
       let(:task_update_params) do
         { task: {
           name: 'update_task',
@@ -92,18 +93,17 @@ RSpec.describe 'TasksAPI', type: :request do
       end
 
       it 'バリデーションエラー' do
-        expect { post tasks_path, params: task_error_params }.to change(Task, :count).by(0)
+        expect { patch task_path(task), params: task_error_params }.to change(Task, :count).by(0)
+        expect(response).to have_http_status(400)
       end
     end
   end
 
   describe 'DELETE /tasks/:id' do
-    before do
-      @task = create(:task)
-    end
+    let!(:task) { create(:task) }
 
     it 'タスクが正しく削除されている' do
-      expect { delete task_path(@task) }.to change(Task, :count).by(-1)
+      expect { delete task_path(task) }.to change(Task, :count).by(-1)
     end
   end
 end

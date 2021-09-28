@@ -19,7 +19,7 @@ class TasksController < ApplicationController
     if @task.save
       render json: { task: @task }
     else
-      render json: { errors: @task.errors }
+      render json: { errors: @task.errors }, status: :bad_request
     end
   end
 
@@ -27,7 +27,7 @@ class TasksController < ApplicationController
     if @task.update(task_params)
       render json: { task: @task }
     else
-      render json: { errors: @task.errors }
+      render json: { errors: @task.errors }, status: :bad_request
     end
   end
 

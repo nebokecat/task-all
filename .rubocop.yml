@@ -27,3 +27,7 @@ AllCops:
     - 'config/puma.rb'
     - Gemfile
 
+#RSpecではブロックあたりの行数制限を無視
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'

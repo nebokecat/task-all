@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Task, type: :model do
-
-  let(:task){ build(:task) }
+  let(:task) { build(:task) }
 
   describe 'バリデーション' do
     subject { task }

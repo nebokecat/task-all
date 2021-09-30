@@ -2,7 +2,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: %i[show update destroy]
 
   def index
-    @tasks = Task.all
+    @tasks = Task.search(params[:title], params[:status])
     render json: { tasks: @tasks }
   end
 
@@ -39,5 +39,9 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:name, :description)
+  end
+
+  def invalid_param(params)
+    if params.nil?
   end
 end

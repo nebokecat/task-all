@@ -2,12 +2,16 @@ class TasksController < ApplicationController
   before_action :set_task, only: %i[show update destroy]
 
   def index
-    @tasks = Task.search(params[:title], params[:status])
+    @tasks = Task.search(params[:title], params[:status]).order("#{sort_column} #{sort_method}")
     render json: { tasks: @tasks }
   end
 
   def show
-    render json: { task: @task }
+    if @task
+      render json: { task: @task }
+    else
+      render json: { error: 'タスクが存在しません' }, status: :not_found
+    end
   end
 
   def create
@@ -15,7 +19,7 @@ class TasksController < ApplicationController
     if @task.save
       render json: { task: @task }
     else
-      render json: { errors: @task.errors }
+      render json: { errors: @task.errors }, status: :bad_request
     end
   end
 
@@ -23,7 +27,7 @@ class TasksController < ApplicationController
     if @task.update(task_params)
       render json: { task: @task }
     else
-      render json: { errors: @task.errors }
+      render json: { errors: @task.errors }, status: :bad_request
     end
   end
 
@@ -34,14 +38,18 @@ class TasksController < ApplicationController
   private
 
   def set_task
-    @task = Task.find(params[:id])
+    @task = Task.find_by(id: params[:id])
   end
 
   def task_params
-    params.require(:task).permit(:name, :description)
+    params.require(:task).permit(:name, :description, :finished_at)
   end
 
-  def invalid_param(params)
-    if params.nil?
+  def sort_method
+    %w[asc desc].include?(params[:sort_method]) ? params[:sort_method] : 'asc'
+  end
+
+  def sort_column
+    Task.column_names.include?(params[:sort_column]) ? params[:sort_column] : 'created_at'
   end
 end

@@ -2,12 +2,16 @@ class TasksController < ApplicationController
   before_action :set_task, only: %i[show update destroy]
 
   def index
-    @tasks = Task.order(finished_at: desc)
+    @tasks = Task.order(finished_at: :desc)
     render json: { tasks: @tasks }
   end
 
   def show
-    render json: { task: @task }
+    if @task
+      render json: { task: @task }
+    else
+      render json: { error: 'タスクが存在しません' }, status: :not_found
+    end
   end
 
   def create
@@ -15,7 +19,7 @@ class TasksController < ApplicationController
     if @task.save
       render json: { task: @task }
     else
-      render json: { errors: @task.errors }
+      render json: { errors: @task.errors }, status: :bad_request
     end
   end
 
@@ -23,7 +27,7 @@ class TasksController < ApplicationController
     if @task.update(task_params)
       render json: { task: @task }
     else
-      render json: { errors: @task.errors }
+      render json: { errors: @task.errors }, status: :bad_request
     end
   end
 
@@ -34,7 +38,7 @@ class TasksController < ApplicationController
   private
 
   def set_task
-    @task = Task.find(params[:id])
+    @task = Task.find_by(id: params[:id])
   end
 
   def task_params

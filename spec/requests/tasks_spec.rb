@@ -3,15 +3,15 @@ require 'rails_helper'
 RSpec.describe 'TasksAPI', type: :request do
   describe 'GET /tasks' do
     context '正常系' do
-      let!(:task1) { create(:task, id: 1, name: 'task1', created_at: DateTime.new(2021, 9, 24)) }
-      let!(:task2) { create(:task, id: 2, name: 'task2', created_at: DateTime.new(2021, 9, 25)) }
-      let!(:task3) { create(:task, id: 3, name: 'task3', created_at: DateTime.new(2021, 9, 26)) }
+      let!(:task1) { create(:task, id: 1, name: 'task1', finished_at: DateTime.new(2021, 10, 24)) }
+      let!(:task2) { create(:task, id: 2, name: 'task2', finished_at: DateTime.new(2021, 10, 26)) }
+      let!(:task3) { create(:task, id: 3, name: 'task3', finished_at: DateTime.new(2021, 10, 25)) }
 
       let(:results) { JSON.parse(response.body) }
 
-      it 'タスク一覧が新規作成順に表示されること' do
+      it 'タスク一覧が終了期限順に表示されること' do
         get tasks_path
-        expect(results['tasks'][0]['id']).to match(task3.id)
+        expect(results['tasks'][0]['id']).to match(task2.id)
       end
     end
   end

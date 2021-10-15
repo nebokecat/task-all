@@ -3,9 +3,11 @@ ENV LANG C.UTF-8
 ENV TZ=Asia/Tokyo
 
 RUN /bin/cp -f /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
-    && apt-get update -qq \
-    && apt-get install -y build-essential nodejs postgresql-client git
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN curl https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update -qq \
+    && apt-get install -y build-essential nodejs yarn postgresql-client git
 
 ENV APP_HOME /var/src/app
 RUN mkdir -p $APP_HOME

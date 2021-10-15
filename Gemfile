@@ -64,3 +64,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'rails-i18n', '~> 5.1'
 
 gem 'factory_bot_rails'
+
+gem 'webpacker', '~> 3.5'

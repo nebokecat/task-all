@@ -2,7 +2,7 @@ class TasksController < ApplicationController
   before_action :set_task, only: %i[show update destroy]
 
   def index
-    @tasks = Task.order(finished_at: :desc)
+    @tasks = Task.search(params[:title], params[:status]).order("#{sort_column} #{sort_method}")
     render json: { tasks: @tasks }
   end
 
@@ -43,5 +43,13 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:name, :description, :finished_at)
+  end
+
+  def sort_method
+    %w[asc desc].include?(params[:sort_method]) ? params[:sort_method] : 'asc'
+  end
+
+  def sort_column
+    Task.column_names.include?(params[:sort_column]) ? params[:sort_column] : 'created_at'
   end
 end

@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: %i[show update destroy]
+  include Session
+  before_action :set_task, only: %i[update destroy]
 
   def index
     @tasks = Task.search(params[:title], params[:status]).order("#{sort_column} #{sort_method}")
@@ -7,6 +8,7 @@ class TasksController < ApplicationController
   end
 
   def show
+    @task = current_user.tasks
     if @task
       render json: { task: @task }
     else

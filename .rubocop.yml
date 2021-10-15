@@ -31,3 +31,7 @@ AllCops:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
+
+Rails/ApplicationController:
+  Exclude:
+    - app/controllers/sessions_controller.rb

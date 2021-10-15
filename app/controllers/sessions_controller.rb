@@ -2,14 +2,13 @@ class SessionsController < ActionController::Base
   include Session
   include ActionView::Layouts
 
-  layout "application"
+  layout 'application'
 
-  def new
-  end
+  def new; end
 
   def create
     user = User.find_by(email: params[:session][:email].downcase)
-    if user && user.authenticate(params[:session][:password])
+    if user&.authenticate(params[:session][:password])
       log_in(user)
       redirect_to task_path(current_user)
     else
